@@ -1,0 +1,368 @@
+<!doctype html>
+<html>
+<head>
+  <title>Night Life Tour Wageningen</title>
+  <link rel="icon" type="image/x-icon" href="./LocalData/favicon.JPG">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="main.css" />
+</head>
+
+<body>
+  <H1>Night Life Tour Wageningen, 2022 </H1>
+  <H3>Doctors' information included for health concerns</H3><br>
+  <p>Welcome, welcome, to Wageningen's very own Night Life Entertainment Tour! 
+    In the map shown below, you will find the shortest route through Wageningen that gets you to every place you need to be:
+  pubs, fast food joints, and of course, a nightclub.</p>
+  <p>Since we care very much about your health and we know, from experience????, 
+    that a night out with friends can get pretty wild, we included some information about the nearest doctor; the lighter the map, the closer the doctor.
+    My advice would be to begin in the top right corner and follow the path we calculated for you. 
+    If you do that, you'll be near two doctors by the end of the night.... if you need them.</p>
+    <p>You can adjust the layers on display using the button in the top right corner of the map. Toggle it on or off, it's all possible.
+      Just remember that the last layer added will be on top. It might be needed to turn the "Doctors" (in green) and "Pub Tours" (in red) layer off and on again to make sure they remain clearly visible!
+      You can zoom in and out for more detail and you can click on the map for some additional information. Enjoy the Night Life Wageningen Tour!!!!
+    </p><br>
+    <p id = 'drunk'>Are you perhaps a little lost and even drunker? Then use this button to find your location for you so you can resume the tour!</p>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.js"></script>
+  
+  
+ 
+ 
+  <p id = 'drunk'>Click the button to get your coordinates.</p>
+  <div class="container">
+    <button style="align-self: center;" onclick="getLocation()">Where am I</button>
+  </div>
+ 
+  <p id="demo"></p> 
+  
+  <div id="map"></div>
+  
+  <script>
+  
+    //initialize the map
+    const map = L.map('map').setView([51.97536, 5.66356], 13);
+
+    const backgroundMap =  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+      maxZoom: 21,
+      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+      });
+
+  
+      // Add base layer to map.
+      backgroundMap.addTo(map);
+
+      // DOCTORS
+      var geojsonMarkerOptions_doctors = {
+        "color": "#00FF00",//"#ff7800",
+        "Opacity": 0
+        };
+
+      const doctors = L.geoJson(null,{
+        style : geojsonMarkerOptions_doctors,
+        pointToLayer: function (feature, latlng) {
+          return L.circleMarker(latlng);
+        },
+        onEachFeature: function (feature, layer) {
+        layer.bindPopup("Doctor: " + feature.properties.Name)},
+        }).addTo(map);
+
+      fetch("./LocalData/doctors.geojson") // Fetch the geojson file into the geojson object
+        .then(response => response.json())
+        .then(data => {
+          doctors.addData(data);
+        }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+
+      // DOCTORS SERVICE
+
+      // Range 3500 - 4000
+      var geojsonMarkerOptions_doctors_service_4000 = {
+        "color": "#190033",
+        "Opacity": 0.10
+          };
+
+      const doctors_service_4000 = L.geoJson(null,{
+        style : geojsonMarkerOptions_doctors_service_4000,
+        filter: Distance4000,
+        fillrule: 'nonzero',
+        onEachFeature: function (feature, layer) {
+        layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+        }).addTo(map);
+
+      function Distance4000(feature){
+        if (feature.properties.ToBreak === 4000) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_4000.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+      // Range 3000 - 3500
+      var geojsonMarkerOptions_doctors_service_3500 = {
+      "color": "#330066",
+      "Opacity": 0.10
+        };
+      const doctors_service_3500 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_3500,
+      filter: Distance3500,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance3500(feature){
+        if (feature.properties.ToBreak === 3500) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_3500.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+        // Range 2500 - 3000
+        var geojsonMarkerOptions_doctors_service_3000 = {
+      "color": "#4C0099",
+      "Opacity": 0.10
+        };
+      const doctors_service_3000 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_3000,
+      filter: Distance3000,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance3000(feature){
+        if (feature.properties.ToBreak === 3000) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_3000.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+      // Range 2000 - 2500
+      var geojsonMarkerOptions_doctors_service_2500 = {
+      "color": "#6600CC",
+      "Opacity": 0.10
+        };
+      const doctors_service_2500 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_2500,
+      filter: Distance2500,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance2500(feature){
+        if (feature.properties.ToBreak === 2500) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_2500.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+      // Range 1500 - 2000
+      var geojsonMarkerOptions_doctors_service_2000 = {
+      "color": "#7F00FF",
+      "Opacity": 0.10
+        };
+      const doctors_service_2000 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_2000,
+      filter: Distance2000,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance2000(feature){
+        if (feature.properties.ToBreak === 2000) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_2000.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+      // Range 1000 - 1500
+
+      var geojsonMarkerOptions_doctors_service_1500 = {
+      "color": "#9933FF",
+      "Opacity": 0.10
+        };
+      const doctors_service_1500 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_1500,
+      filter: Distance1500,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance1500(feature){
+        if (feature.properties.ToBreak === 1500) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_1500.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+
+    // Range 500 - 1000
+
+    var geojsonMarkerOptions_doctors_service_1000 = {
+      "color": "#B266FF",
+      "Opacity": 0.10
+        };
+      const doctors_service_1000 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_1000,
+      filter: Distance1000,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance1000(feature){
+        if (feature.properties.ToBreak === 1000) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_1000.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+      // Range 100 - 500
+
+    var geojsonMarkerOptions_doctors_service_500 = {
+      "color": "#CC99FF",
+      "Opacity": 0.10
+        };
+      const doctors_service_500 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_500,
+      filter: Distance500,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance500(feature){
+        if (feature.properties.ToBreak === 500) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_500.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+    // Range 0 - 100
+
+    var geojsonMarkerOptions_doctors_service_100 = {
+      "color": "#E5CCFF",
+      "Opacity": 0
+        };
+      const doctors_service_100 = L.geoJson(null,{
+      style : geojsonMarkerOptions_doctors_service_100,
+      filter: Distance100,
+      fillrule: 'nonzero',
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Distance to Doctor: " + feature.properties.FromBreak +" to " +feature.properties.ToBreak + " meters")},
+      }).addTo(map);
+
+      function Distance100(feature){
+        if (feature.properties.ToBreak === 100) return true
+      }
+      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        doctors_service_100.addData(data);
+      }).catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+
+
+      var geojsonMarkerOptions_pubs = {
+      "color": "red",//"#ff7800",
+      "Opacity": 0.25
+    };
+
+    const pubs = L.geoJson(null,{
+      style : geojsonMarkerOptions_pubs,
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng);
+      },
+      onEachFeature: function (feature, layer) {
+      layer.bindPopup("Entertainment: " + feature.properties.Name)},
+      }).addTo(map);
+
+
+      fetch("./LocalData/pubs.geojson") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        pubs.addData(data);
+      })
+      .catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+      fetch("./LocalData/pubs_routes.geojson") // Fetch the geojson file into the geojson object
+      .then(response => response.json())
+      .then(data => {
+        pubs.addData(data);
+      })
+      .catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
+
+
+      
+
+      // Add layer control to the webmap
+      var layerControl = L.control.layers().addTo(map);
+      layerControl.addBaseLayer(backgroundMap, "Basemap");
+      layerControl.addOverlay(doctors_service_4000, 'doctors: 3500 - 4000 meters');
+      layerControl.addOverlay(doctors_service_3500, 'doctors: 3000 - 3500 meters');
+      layerControl.addOverlay(doctors_service_3000, 'doctors: 2500 - 3000 meters');
+      layerControl.addOverlay(doctors_service_2500, 'doctors: 2000 - 2500 meters');
+      layerControl.addOverlay(doctors_service_2000, 'doctors: 1500 - 2000 meters');
+      layerControl.addOverlay(doctors_service_1500, 'doctors: 1000 - 1500 meters');
+      layerControl.addOverlay(doctors_service_1000, 'doctors: 500 - 1000 meters');
+      layerControl.addOverlay(doctors_service_500, 'doctors: 100 - 500 meters');
+      layerControl.addOverlay(doctors_service_100, 'doctors: 0 - 100 meters');
+      layerControl.addOverlay(pubs, "Pub Tour");
+      layerControl.addOverlay(doctors, "Doctors");
+      
+
+
+      
+  
+      var x = document.getElementById("demo");
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+          x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+
+      function showPosition(position) {
+        // x.innerHTML = "Latitude: " + position.coords.latitude + 
+        // "<br>Longitude: " + position.coords.longitude;
+        var popup = L.popup() // simple pop-up without symbol
+              .setLatLng([position.coords.latitude, position.coords.longitude])
+              .setContent("You are here!")
+              .openOn(map);
+      }
+
+    </script>
+   
+    
+    <H4>Created by Tamara Stoof</H4> 
+  </body>
+  </html>
