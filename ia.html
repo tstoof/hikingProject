@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Night Life Tour Wageningen</title>
-  <link rel="icon" type="image/x-icon" href="./LocalData/favicon.JPG">
+  <link rel="icon" type="image/x-icon" href="./favicon.JPG">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <link rel="stylesheet" href="main.css" />
 </head>
@@ -66,7 +66,7 @@
         layer.bindPopup("Doctor: " + feature.properties.Name)},
         }).addTo(map);
 
-      fetch("./LocalData/doctors.geojson") // Fetch the geojson file into the geojson object
+      fetch("./doctors.geojson") // Fetch the geojson file into the geojson object
         .then(response => response.json())
         .then(data => {
           doctors.addData(data);
@@ -93,7 +93,7 @@
       function Distance4000(feature){
         if (feature.properties.ToBreak === 4000) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_4000.addData(data);
@@ -115,7 +115,7 @@
       function Distance3500(feature){
         if (feature.properties.ToBreak === 3500) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_3500.addData(data);
@@ -138,7 +138,7 @@
       function Distance3000(feature){
         if (feature.properties.ToBreak === 3000) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_3000.addData(data);
@@ -161,7 +161,7 @@
       function Distance2500(feature){
         if (feature.properties.ToBreak === 2500) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_2500.addData(data);
@@ -183,7 +183,7 @@
       function Distance2000(feature){
         if (feature.properties.ToBreak === 2000) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_2000.addData(data);
@@ -207,7 +207,7 @@
       function Distance1500(feature){
         if (feature.properties.ToBreak === 1500) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_1500.addData(data);
@@ -232,7 +232,7 @@
       function Distance1000(feature){
         if (feature.properties.ToBreak === 1000) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_1000.addData(data);
@@ -256,7 +256,7 @@
       function Distance500(feature){
         if (feature.properties.ToBreak === 500) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_500.addData(data);
@@ -280,7 +280,7 @@
       function Distance100(feature){
         if (feature.properties.ToBreak === 100) return true
       }
-      fetch("./LocalData/doctors_service2.json") // Fetch the geojson file into the geojson object
+      fetch("./doctors_service2.json") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         doctors_service_100.addData(data);
@@ -304,7 +304,7 @@
       }).addTo(map);
 
 
-      fetch("./LocalData/pubs.geojson") // Fetch the geojson file into the geojson object
+      fetch("./pubs.geojson") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         pubs.addData(data);
@@ -312,7 +312,7 @@
       .catch( error => alert("Sorry, the data cannot be found, this is the error: " + error));
 
 
-      fetch("./LocalData/pubs_routes.geojson") // Fetch the geojson file into the geojson object
+      fetch("./pubs_routes.geojson") // Fetch the geojson file into the geojson object
       .then(response => response.json())
       .then(data => {
         pubs.addData(data);
