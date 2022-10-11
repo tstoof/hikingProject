@@ -1,0 +1,29 @@
+/* CHappyhill - Webmapping V4 - main.css file */
+
+#map {
+  height: 500px;
+  width:100%;
+} 
+
+p {
+  font-family: cursive;
+}
+
+
+H1, H3, H4 {
+  text-align: center;
+  font-family: cursive;
+}
+
+body {
+  background-color: lightgray;
+}
+
+#drunk {
+  text-align: center;
+  font-family: cursive;
+}
+
+.container {
+  text-align: center;   
+  }
