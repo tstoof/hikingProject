@@ -53,6 +53,9 @@
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
+    
+      // add scale
+      L.control.scale().addTo(map);
 
   
       // Add base layer to map.
@@ -67,9 +70,6 @@
         return div;
       }
       north.addTo(map);
-    
-      // add scale
-      L.control.scale().addTo(map);
     
       // title
       //var title = L.control({position: "top"});
