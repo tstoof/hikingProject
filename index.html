@@ -68,10 +68,15 @@
       }
       north.addTo(map);
     
-      //var marker = new L.marker({position: "bottomright"}, { opacity: 0.01 }); //opacity may be set to zero
-      //marker.bindTooltip("My Label", {permanent: true, className: "my-label", offset: [0, 0] });
-      //marker.addTo(map);
-      
+      // title
+      var title = L.control({position: "top"});
+      title.onAdd = function(map) {
+        var div = L.DomUtil.create("div", "info legend");
+        div.innerHTML = '<img style="max-height:100px;max-width:100px;" src="./LocalData/title.jpg">';
+        return div;
+      }
+      north.addTo(map);
+  
 
       // DOCTORS
       var geojsonMarkerOptions_doctors = {
