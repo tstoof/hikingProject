@@ -61,7 +61,7 @@
       L.control.scale().addTo(map);
     
       // Add north arrow
-      var north = L.control({position: "bottomright"});
+      var north = L.control({position: "bottomleft"});
       north.onAdd = function(map) {
         var div = L.DomUtil.create("div", "info legend");
         div.innerHTML = '<img style="max-height:100px;max-width:100px;" src="./LocalData/north_arrow.jpeg">';
