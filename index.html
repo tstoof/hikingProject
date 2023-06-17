@@ -70,10 +70,10 @@
       north.addTo(map);
     
       // title
-      var title = L.control({position: "topleft"});
+      var title = L.control({position: "top"});
       title.onAdd = function(map) {
         var div = L.DomUtil.create("div", "info legend");
-        div.innerHTML = '<img style="max-height:100px;max-width:100px;" src="./LocalData/title.JPG">';
+        div.innerHTML = '<img style="max-height:300px;max-width:1000px;" src="./LocalData/title.JPG">';
         return div;
       }
       title.addTo(map);
