@@ -53,14 +53,12 @@
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
-    
-      // add scale
-      L.control.scale().addTo(map);
-
-  
+ 
       // Add base layer to map.
       backgroundMap.addTo(map);
     
+      // add scale
+      L.control.scale().addTo(map);
     
       // Add north arrow
       var north = L.control({position: "bottomright"});
