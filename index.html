@@ -70,7 +70,7 @@
       north.addTo(map);
     
       // title
-      var title = L.control({position: "top"});
+      var title = L.control({position: "topleft"});
       title.onAdd = function(map) {
         var div = L.DomUtil.create("div", "info legend");
         div.innerHTML = '<img style="max-height:300px;max-width:1000px;" src="./LocalData/title.JPG">';
