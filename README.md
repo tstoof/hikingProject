@@ -33,3 +33,6 @@ Om een verandering naar git te uploaden, doe dit:
 add apps in settings.py
 hike\views.py is important
 urls.py is important
+
+
+SUPERMARKT
