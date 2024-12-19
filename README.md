@@ -5,7 +5,7 @@ https://docs.djangoproject.com/en/5.1/howto/windows/
 
 
 
-belangrijk (ik wil dit automatiseren zodat we dit niet altijd opnieuw hoeven te doen):
+belangrijk voor de eerste keer (ik wil dit automatiseren zodat we dit niet altijd opnieuw hoeven te doen):
 - pip install virtualenv (optioneel)
 - python -m venv hikeEnv
 - .\hikeEnv\Scripts\activate
@@ -14,6 +14,13 @@ belangrijk (ik wil dit automatiseren zodat we dit niet altijd opnieuw hoeven te 
 - cd hikingApp
 - python manage.py migrate
 - python manage.py runserver   
+
+
+als je de app wil starten:
+- .\hikeEnv\Scripts\activate
+- cd hikingApp
+- python manage.py runserver
+
 
 
 Om een nieuwe app te maken
