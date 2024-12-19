@@ -18,8 +18,14 @@ cd hikingApp
 
 python manage.py migrate
 ## python manage.py runserver   
+## python manage.py startapp hike
 
 
-Dit moet je doen in de terminal als je zelf wil werken en net VS Code hebt opgestart:
-.\hikeEnv\Scripts\activate
 
+
+
+add apps in settings.py
+
+
+hike\views.py is important
+urls.py is important

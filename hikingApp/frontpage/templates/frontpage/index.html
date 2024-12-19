@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FrontPage</title>
+    <link rel="stylesheet" href="{% static 'frontpage/styles.css'%}">
+</head>
+<body>
+    <h1>FrontPage!!!!!</h1>
+    <p>Hi {{name1}} en {{name2}}</p>
+    {% if name1 == "Tamara" %}
+    <p>Tamara is cool</p>
+    {% endif %}
+</body>
+</html>
