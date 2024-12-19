@@ -1,11 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hiking App</title>
-    <link rel="stylesheet" href="{% static 'hike/styles.css'%}">
-</head>
-<body>
+{% extends "hike/layout.html" %}
+
+{% block body %}
     <form>
         <input 
         type="text" 
@@ -24,8 +19,7 @@
         required>
         <input type="submit" value="plan my route">
     </form>
-</body>
-</html>
 
+{% endblock %}
 
 <!-- 51.987496187093704, 5.665793885052128  coordinaten van gaia -->

@@ -1,14 +1,6 @@
-{% load static %}
+{% extends "frontpage/layout.html"%}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'frontpage/styles.css'%}">
-    <title>Hiking App</title>
-</head>
-<body>
+{% block body %}
     <!-- Hero Section -->
     <div class="hero">
         <h1>Hi {{name1}} and {{name2}} and welcome to TrailBlazer</h1>
@@ -29,7 +21,7 @@
                 <p>Log your hikes, track distance, and monitor elevation gain in real-time.</p>
             </div>
             <div class="card">
-                <h3>Plan Ahead</h3>
+                <a href="{% url 'routeplanner'%}">Plan ahead</a>
                 <p>Get weather updates, difficulty ratings, and preparation tips for your hikes.</p>
             </div>
         </div>
@@ -39,5 +31,4 @@
     <footer class="footer">
         &copy; 2024 TrailBlazer. All rights reserved.
     </footer>
-</body>
-</html>
+{% endblock %}
