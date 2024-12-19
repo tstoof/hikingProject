@@ -1,3 +1,4 @@
+/* Global Body Styles */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -79,6 +80,27 @@ body {
 .features .card p {
     font-size: 0.9rem;
     color: #555;
+}
+
+/* "Go back to start" Link styled like Footer */
+a {
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #333; /* Dark background like footer */
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: all 0.3s ease;
+    margin-top: 2rem; /* Space above the link */
+    margin-bottom: 2rem; /* Space below the link */
+    text-align: center; /* Center the text inside the link */
+}
+
+a:hover {
+    background-color: #444; /* Darker shade on hover */
+    transform: scale(1.05); /* Slight zoom effect */
 }
 
 /* Footer */
