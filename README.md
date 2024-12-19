@@ -5,27 +5,24 @@ https://docs.djangoproject.com/en/5.1/howto/windows/
 
 
 
-Dit heb ik al gedaan:
-python --version
-pip --version
-pip install virtualenv
-python -m venv hikeEnv
-.\hikeEnv\Scripts\activate
-pip install django
-django-admin --version
-django-admin startproject hikingApp
-cd hikingApp
+belangrijk (ik wil dit automatiseren zodat we dit niet altijd opnieuw hoeven te doen):
+- pip install virtualenv (optioneel)
+- python -m venv hikeEnv
+- .\hikeEnv\Scripts\activate
+- pip install django
+- django-admin --version (optioneel)
+- cd hikingApp
+- python manage.py migrate
+- python manage.py runserver   
 
-python manage.py migrate
-## python manage.py runserver   
-## python manage.py startapp hike
+
+Om een nieuwe app te maken
+- python manage.py startapp appName
 
 
 
 
 
 add apps in settings.py
-
-
 hike\views.py is important
 urls.py is important

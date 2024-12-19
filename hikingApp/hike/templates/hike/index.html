@@ -6,7 +6,26 @@
     <link rel="stylesheet" href="{% static 'hike/styles.css'%}">
 </head>
 <body>
-    <h1>Hiking App</h1>
-    <p>This is a simple HTML webpage for the hiking app.</p>
+    <form>
+        <input 
+        type="text" 
+        name="longitude" 
+        placeholder="Longitude" 
+        pattern="^-?([1-9]?[0-9]|1[0-7][0-9]|180)(\.\d+)?$" 
+        title="Enter a valid longitude (-180 to 180)" 
+        required>
+        
+    <input 
+        type="text" 
+        name="latitude" 
+        placeholder="Latitude" 
+        pattern="^-?([1-8]?[0-9]|90)(\.\d+)?$" 
+        title="Enter a valid latitude (-90 to 90)" 
+        required>
+        <input type="submit" value="plan my route">
+    </form>
 </body>
 </html>
+
+
+<!-- 51.987496187093704, 5.665793885052128  coordinaten van gaia -->
