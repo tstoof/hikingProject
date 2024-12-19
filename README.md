@@ -1,0 +1,1 @@
+In de backend doen we alle code voor het schrijven vd algoritmes etc en de frontend en api is de koppeling aan de gebruikerskant
