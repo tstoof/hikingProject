@@ -19,7 +19,14 @@ belangrijk (ik wil dit automatiseren zodat we dit niet altijd opnieuw hoeven te 
 Om een nieuwe app te maken
 - python manage.py startapp appName
 
+Krijn, mocht je weer problemen hebben met .\hikeEnv\Scripts\activate, doe dan dit:
+- powershell -ExecutionPolicy Bypass -File C:\hiking_project\hikingProject\hikeEnv\Scripts\Activate.ps1
 
+
+Om een verandering naar git te uploaden, doe dit:
+- git add .
+- git commit -m "hier komt je commit message"
+- git push
 
 
 
