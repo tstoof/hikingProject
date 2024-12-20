@@ -1,35 +1,71 @@
-{% extends "hike/layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Markers with Updated Coordinates</title>
 
-{% block body %}
-    <div>
-        <a href="{% url 'frontpage'%}">Go back to start</a>
-    </div>
-    <div>
-        <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed.html?bbox=0.49438476562500006%2C50.68427770577119%2C9.283447265625002%2C53.73896488496292&amp;layer=mapnik" style="border: 1px solid black"></iframe>
-        <br/>
-        <small>
-            <a href="{% url 'map'%}">View Larger Map</a>
-        </small>
-    </div>
-    <form action="" method="post">
-        <input 
-        type="text" 
-        name="longitude" 
-        placeholder="Longitude" 
-        pattern="^-?([1-9]?[0-9]|1[0-7][0-9]|180)(\.\d+)?$" 
-        title="Enter a valid longitude (-180 to 180)" 
-        required>
-        
-    <input 
-        type="text" 
-        name="latitude" 
-        placeholder="Latitude" 
-        pattern="^-?([1-8]?[0-9]|90)(\.\d+)?$" 
-        title="Enter a valid latitude (-90 to 90)" 
-        required>
-        <input type="submit" value="plan my route">
-    </form>
+    <!-- Include Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-{% endblock %}
+    <!-- Include Leaflet.js JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- 51.987496187093704, 5.665793885052128  coordinaten van gaia -->
+    <style>
+        /* Set the size of the map */
+        #map {
+            width: 100%;
+            height: 70vh;
+        }
+    </style>
+</head>
+<body>
+    <h1>Drag and drop the two markers to select your begin and end points!</h1>
+
+    <div id="map"></div>
+
+    <h3>Coordinates:</h3>
+    <p>Marker 1: <span id="marker1-coordinates">Not set</span></p>
+    <p>Marker 2: <span id="marker2-coordinates">Not set</span></p>
+
+    <script>
+        // Initialize the map and set its view to a specific latitude and longitude
+        var map = L.map('map').setView([52.073, 5.13], 8); // Example: London
+
+        // Set the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Initialize two markers with their initial positions
+        var marker1 = L.marker([52.145, 5.24], { draggable: true }).addTo(map)
+            .bindPopup('Marker 1')
+            .openPopup();
+
+        var marker2 = L.marker([52.126, 5.68], { draggable: true }).addTo(map)
+            .bindPopup('Marker 2')
+            .openPopup();
+
+        // Function to update the coordinates of both markers
+        function updateCoordinates() {
+            var lat1 = marker1.getLatLng().lat.toFixed(5);
+            var lng1 = marker1.getLatLng().lng.toFixed(5);
+            var lat2 = marker2.getLatLng().lat.toFixed(5);
+            var lng2 = marker2.getLatLng().lng.toFixed(5);
+
+            // Display the coordinates of the two markers
+            document.getElementById('marker1-coordinates').textContent = `Latitude: ${lat1}, Longitude: ${lng1}`;
+            document.getElementById('marker2-coordinates').textContent = `Latitude: ${lat2}, Longitude: ${lng2}`;
+        }
+
+        // Update coordinates when a marker is dragged and released
+        marker1.on('dragend', updateCoordinates);
+        marker2.on('dragend', updateCoordinates);
+
+        // Initial coordinates update on page load
+        updateCoordinates();
+    </script>
+    <a href="{%  url 'routeplanner'%}">Go back to routeplanner</a>
+    <a href="{%  url 'frontpage'%}">Go back to frontpage</a>
+</body>
+</html>
