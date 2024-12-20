@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Markers with Updated Coordinates</title>
+
+    <!-- Include Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Include Leaflet.js JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        /* Set the size of the map */
+        #map {
+            width: 100%;
+            height: 70vh;
+        }
+    </style>
+</head>
+<body>
+    <h1>Place and Drag Two Markers</h1>
+
+    <div id="map"></div>
+
+    <h3>Coordinates:</h3>
+    <p>Marker 1: <span id="marker1-coordinates">Not set</span></p>
+    <p>Marker 2: <span id="marker2-coordinates">Not set</span></p>
+
+    <script>
+        // Initialize the map and set its view to a specific latitude and longitude
+        var map = L.map('map').setView([52.073, 5.13], 8); // Example: London
+
+        // Set the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Initialize two markers with their initial positions
+        var marker1 = L.marker([52.145, 5.24], { draggable: true }).addTo(map)
+            .bindPopup('Marker 1')
+            .openPopup();
+
+        var marker2 = L.marker([52.126, 5.68], { draggable: true }).addTo(map)
+            .bindPopup('Marker 2')
+            .openPopup();
+
+        // Function to update the coordinates of both markers
+        function updateCoordinates() {
+            var lat1 = marker1.getLatLng().lat.toFixed(5);
+            var lng1 = marker1.getLatLng().lng.toFixed(5);
+            var lat2 = marker2.getLatLng().lat.toFixed(5);
+            var lng2 = marker2.getLatLng().lng.toFixed(5);
+
+            // Display the coordinates of the two markers
+            document.getElementById('marker1-coordinates').textContent = `Latitude: ${lat1}, Longitude: ${lng1}`;
+            document.getElementById('marker2-coordinates').textContent = `Latitude: ${lat2}, Longitude: ${lng2}`;
+        }
+
+        // Update coordinates when a marker is dragged and released
+        marker1.on('dragend', updateCoordinates);
+        marker2.on('dragend', updateCoordinates);
+
+        // Initial coordinates update on page load
+        updateCoordinates();
+    </script>
+    <a href="{%  url 'routeplanner'%}">Go back to routeplanner</a>
+    <a href="{%  url 'frontpage'%}">Go back to frontpage</a>
+</body>
+</html>
