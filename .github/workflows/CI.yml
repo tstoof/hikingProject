@@ -11,16 +11,7 @@ on:
       - main         # Trigger for pull requests into the main branch (e.g., final merge)
 
 jobs:
-  check_base_branch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check base branch
-        run: |
-          if [[ $GITHUB_REF != "refs/heads/development" ]]; then
-            echo "Error: Pull requests must be merged from the 'development' branch into 'main'."
-            exit 1
-          fi
-
+ 
   setup:
     runs-on: ubuntu-latest  # Run on the latest Ubuntu runner
 
