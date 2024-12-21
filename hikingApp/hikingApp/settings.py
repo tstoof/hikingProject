@@ -27,6 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+import os
+
+# Other settings...
+
+STATIC_URL = '/static/'  # URL for serving static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Path where static files are collected
+
+# Other settings...
+
 
 # Application definition
 
