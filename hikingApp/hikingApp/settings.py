@@ -88,8 +88,15 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'  # Corrected value
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This is fine
+STATIC_URL = '/static/'  # Correct value
+
+# Make sure Django knows where to find the app's static files during development
+STATICFILES_DIRS = [
+    BASE_DIR / 'hikingApp' / 'hike' / 'static',  # Include this line for static files in 'hikingApp/static'
+]
+
+# Directory for collecting static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collect static files to 'staticfiles/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
