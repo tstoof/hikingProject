@@ -8,16 +8,13 @@
     <!-- Include Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hike/css/routeplannerStyles.css'%}" />
+
+
     <!-- Include Leaflet.js JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <style>
-        /* Set the size of the map */
-        #map {
-            width: 100%;
-            height: 70vh;
-        }
-    </style>
 </head>
 <body>
     <h1>Drag and drop the two markers to select your begin and end points!</h1>

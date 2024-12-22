@@ -9,7 +9,7 @@ from decouple import config
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='fallback-secret-key-for-dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['planyourhike.onrender.com', 'www.planyourhike.onrender.com', '127.0.0.1', 'localhost']
 
@@ -92,7 +92,7 @@ STATIC_URL = '/static/'  # Correct value
 
 # Make sure Django knows where to find the app's static files during development
 STATICFILES_DIRS = [
-    BASE_DIR / 'hikingApp' / 'hike' / 'static',  # Include this line for static files in 'hikingApp/static'
+    BASE_DIR / 'hike' / 'static',  # Include this line for static files in 'hikingApp/static'
 ]
 
 # Directory for collecting static files for production
