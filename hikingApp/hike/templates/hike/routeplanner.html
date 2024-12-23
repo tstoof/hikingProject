@@ -81,6 +81,34 @@
             });
         }
 
+        function downloadLineAsCSV() {
+            if (!lineLayer || lineLayer.getLatLngs().length === 0) {
+                alert("No line data available to download!");
+                return;
+            }
+
+            // Get the coordinates of the polyline (lineLayer) as an array of lat/lng pairs
+            let coordinates = lineLayer.getLatLngs();
+
+            // Convert coordinates to CSV format
+            let csvContent = "Latitude,Longitude\n";
+            coordinates.forEach(coord => {
+                // coord is a LatLng object, which has lat and lng properties
+                csvContent += `${coord.lat},${coord.lng}\n`;
+            });
+
+            // Create a Blob and download it
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "line_coordinates.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+
         // Update coordinates when a marker is dragged and released
         marker1.on('dragend', updateCoordinates);
         marker2.on('dragend', updateCoordinates);
@@ -89,5 +117,6 @@
         updateCoordinates();
     </script>
     <a href="{% url 'frontpage' %}">Go back to frontpage</a>
+    <button onclick="downloadLineAsCSV()">Download Line as CSV</button>
     
 {% endblock %}
