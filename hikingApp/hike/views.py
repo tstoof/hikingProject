@@ -12,6 +12,8 @@ def routeplanner(request):
 def frontpage(request):
     return render(request, "hike/frontpage.html")
 
+def login(request):
+    return render(request, "hike/login.html")
 
 # View to handle the incoming coordinates
 @csrf_exempt  # You might want to use CSRF protection in a production app
