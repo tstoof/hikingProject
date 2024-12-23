@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draggable Markers with Updated Coordinates</title>
+{% extends "css/routeplannerStyles.html" %}
 
-    <!-- Include Leaflet.js CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'hike/css/routeplannerStyles.css'%}" />
-
-    <!-- Include Leaflet.js JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <style>
-        #map {
-            width: 100%;
-            height: 70vh;
-        }
-    </style>
-
-</head>
-<body>
+{% block body %}
     <h1>Drag and drop the two markers to select your begin and end points!</h1>
 
     <div id="map"></div>
@@ -69,5 +47,4 @@
         updateCoordinates();
     </script>
     <a href="{%  url 'frontpage'%}">Go back to frontpage</a>
-</body>
-</html>
+{% endblock %}
