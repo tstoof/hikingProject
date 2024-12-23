@@ -1,0 +1,34 @@
+{% extends "css/frontpageStyles.html" %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome to TrailBlazer</h1>
+        <p>Your ultimate companion for discovering breathtaking hiking trails and outdoor adventures.</p>
+        <a href="#features" class="btn">Explore Features</a>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2>Features of Our App</h2>
+        <div class="feature-cards">
+            <div class="card">
+                <h3>Find Trails</h3>
+                <p>Discover hiking trails near you with detailed maps and user reviews.</p>
+            </div>
+            <div class="card">
+                <h3>Track Progress</h3>
+                <p>Log your hikes, track distance, and monitor elevation gain in real-time.</p>
+            </div>
+            <div class="card">
+                <a href="/routeplanner">Plan ahead</a>
+                <p>Get weather updates, difficulty ratings, and preparation tips for your hikes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2024 TrailBlazer. All rights reserved.
+    </footer>
+{% endblock %}
