@@ -1,6 +1,7 @@
 ### start een localhost server om te kijken hoe je veranderingen eruit zien
 
-- python manage.py runserver
+      - cd hikingApp
+      - python manage.py runserver
 
 ### als de opmaak verdwenen is, ga naar hikingApp/settings.py en zet DEBUG = True
 
