@@ -6,8 +6,8 @@
     <div id="map"></div>
 
     <h3>Coordinates:</h3>
-    <p>Marker 1: <span id="marker1-coordinates">Not set</span></p>
-    <p>Marker 2: <span id="marker2-coordinates">Not set</span></p>
+    <p>Start: <span id="marker1-coordinates">Not set</span></p>
+    <p>End: <span id="marker2-coordinates">Not set</span></p>
 
     <script>
         // Initialize the map and set its view to a specific latitude and longitude
@@ -20,12 +20,14 @@
 
         // Initialize two markers with their initial positions
         var marker1 = L.marker([52.145, 5.24], { draggable: true }).addTo(map)
-            .bindPopup('Marker 1')
+            .bindPopup('Start')
             .openPopup();
 
         var marker2 = L.marker([52.126, 5.68], { draggable: true }).addTo(map)
-            .bindPopup('Marker 2')
+            .bindPopup('End')
             .openPopup();
+
+        var lineLayer = null;
 
         // Function to update the coordinates of both markers
         function updateCoordinates() {
@@ -37,6 +39,46 @@
             // Display the coordinates of the two markers
             document.getElementById('marker1-coordinates').textContent = `Latitude: ${lat1}, Longitude: ${lng1}`;
             document.getElementById('marker2-coordinates').textContent = `Latitude: ${lat2}, Longitude: ${lng2}`;
+
+            // Call the function to send the coordinates to the backend via POST
+            sendCoordinatesToAPI(lat1, lng1, lat2, lng2);
+        }
+
+        // Function to send the coordinates to the backend API using a POST request
+        function sendCoordinatesToAPI(lat1, lng1, lat2, lng2) {
+            fetch('/api/coordinates/', {  // The URL of your Django API endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // CSRF token for security
+                },
+                body: JSON.stringify({
+                    marker1: { lat: lat1, lng: lng1 },
+                    marker2: { lat: lat2, lng: lng2 }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const lineCoordinates = data.line_data.coordinates;
+
+                    // Clear the existing line from the map
+                    if (lineLayer) {
+                        map.removeLayer(lineLayer);
+                    }
+
+                    // Add the new line to the map
+                    lineLayer = L.polyline(
+                        lineCoordinates.map(coord => [coord[1], coord[0]]), // Leaflet expects [lat, lng]
+                        { color: 'blue', weight: 4 }
+                    ).addTo(map);
+
+                    map.fitBounds(lineLayer.getBounds()); // Adjust the map to fit the line
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
 
         // Update coordinates when a marker is dragged and released
@@ -46,5 +88,6 @@
         // Initial coordinates update on page load
         updateCoordinates();
     </script>
-    <a href="{%  url 'frontpage'%}">Go back to frontpage</a>
+    <a href="{% url 'frontpage' %}">Go back to frontpage</a>
+    
 {% endblock %}
