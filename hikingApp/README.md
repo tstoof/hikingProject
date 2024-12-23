@@ -1,25 +1,32 @@
-# start een localhost server om te kijken hoe je veranderingen eruit zien
+### start een localhost server om te kijken hoe je veranderingen eruit zien
+
 - python manage.py runserver
 
-# als de opmaak verdwenen is, ga naar hikingApp/settings.py en zet DEBUG = True
+### als de opmaak verdwenen is, ga naar hikingApp/settings.py en zet DEBUG = True
 
-# Om een verandering naar git te uploaden, doe dit:
+### Voordat je begint, check of je op de goede branch zit (dus niet main)
+
+    - git status
+    - git checkout *branch_name* (om naar de juiste branch te gaan)
+
+### Om een verandering naar git te uploaden, doe dit:
 
 - git add .
 - git commit -m "hier komt je commit message"
 - git push
 
-# General Workflow Steps:
+### General Workflow Steps:
 
 1. Create a Feature Branch: When starting a new feature, create a branch off of development:
-    - git checkout development
-    - git checkout -b feature/my-new-feature
+
+   - git checkout development
+   - git checkout -b feature/my-new-feature
 
 2. Work on Your Feature: Make changes and commit them to your feature branch.
 
 3. Push Your Feature Branch: Push your feature branch to GitHub:
-    - git push origin feature/my-new-feature
-This will trigger the CI pipeline.
+
+   - git push origin feature/my-new-feature
 
 4. Create a Pull Request: When you're ready to merge the feature, open a pull request to merge feature/my-new-feature into development.
 
