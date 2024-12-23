@@ -27,6 +27,8 @@
             .bindPopup('End')
             .openPopup();
 
+        var lineLayer = null;
+
         // Function to update the coordinates of both markers
         function updateCoordinates() {
             var lat1 = marker1.getLatLng().lat.toFixed(5);
@@ -57,11 +59,25 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Handle the server's response if necessary
-                console.log('Server response:', data);
+                if (data.status === "success") {
+                    const lineCoordinates = data.line_data.coordinates;
+
+                    // Clear the existing line from the map
+                    if (lineLayer) {
+                        map.removeLayer(lineLayer);
+                    }
+
+                    // Add the new line to the map
+                    lineLayer = L.polyline(
+                        lineCoordinates.map(coord => [coord[1], coord[0]]), // Leaflet expects [lat, lng]
+                        { color: 'blue', weight: 4 }
+                    ).addTo(map);
+
+                    map.fitBounds(lineLayer.getBounds()); // Adjust the map to fit the line
+                }
             })
             .catch(error => {
-                console.error('Error sending coordinates:', error);
+                console.error('Error:', error);
             });
         }
 

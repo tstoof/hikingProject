@@ -29,9 +29,8 @@ def receive_coordinates(request):
             # process_coordinates(marker1_lat, marker1_lng, marker2_lat, marker2_lng)
             coord1 = (marker1_lat, marker1_lng)
             coord2 = (marker2_lat, marker2_lng)
-            hello_coordinates = say_hello_to_coordinates(coord1, coord2)
             straight_line = create_straight_line_json(coord1, coord2)
-            return JsonResponse({"status": "success", "message": straight_line["coordinates"]})
+            return JsonResponse({"status": "success", "line_data": straight_line})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
     else:
