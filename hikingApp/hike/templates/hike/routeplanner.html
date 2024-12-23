@@ -37,6 +37,32 @@
             // Display the coordinates of the two markers
             document.getElementById('marker1-coordinates').textContent = `Latitude: ${lat1}, Longitude: ${lng1}`;
             document.getElementById('marker2-coordinates').textContent = `Latitude: ${lat2}, Longitude: ${lng2}`;
+
+            // Call the function to send the coordinates to the backend via POST
+            sendCoordinatesToAPI(lat1, lng1, lat2, lng2);
+        }
+
+        // Function to send the coordinates to the backend API using a POST request
+        function sendCoordinatesToAPI(lat1, lng1, lat2, lng2) {
+            fetch('/api/coordinates/', {  // The URL of your Django API endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // CSRF token for security
+                },
+                body: JSON.stringify({
+                    marker1: { lat: lat1, lng: lng1 },
+                    marker2: { lat: lat2, lng: lng2 }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the server's response if necessary
+                console.log('Server response:', data);
+            })
+            .catch(error => {
+                console.error('Error sending coordinates:', error);
+            });
         }
 
         // Update coordinates when a marker is dragged and released
@@ -46,5 +72,6 @@
         // Initial coordinates update on page load
         updateCoordinates();
     </script>
-    <a href="{%  url 'frontpage'%}">Go back to frontpage</a>
+    <a href="{% url 'frontpage' %}">Go back to frontpage</a>
+    
 {% endblock %}
