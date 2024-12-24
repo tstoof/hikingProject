@@ -30,10 +30,10 @@ def create_straight_line_json(coord1, coord2, num_points=100):
         lat1, lng1 = coord1
         lat2, lng2 = coord2
 
-        lat1 = float(lat1)
-        lat2 = float(lat2)
-        lng1 = float(lng1)
-        lng2 = float(lng2)
+        lng1 = float(lat1) # switched lat and lng because of api call
+        lng2 = float(lat2)
+        latng1 = float(lng1)
+        lat2 = float(lng2)
 
         # Generate points along the line
         points = []
