@@ -1,7 +1,9 @@
 import openrouteservice
 from openrouteservice.convert import decode_polyline
-import os
 from decouple import config
+import logging
+
+logger = logging.getLogger(__name__)
 
 def say_hello_to_coordinates(coord1, coord2):
     lat1, lng1 = coord1
@@ -55,9 +57,7 @@ def create_straight_line_json(coord1, coord2, num_points=100):
 import requests
 def plan_route(coord1, coord2):
 
-    try:
-        
-     
+    try:    
         # Initialize the client with your API key
         client = openrouteservice.Client(key=config('ORS_API_KEY'))
         route = client.directions(
@@ -65,12 +65,13 @@ def plan_route(coord1, coord2):
             profile='foot-hiking',  # Other options: 'cycling-regular', 'foot-walking', etc.
         )
         route = decode_polyline(route['routes'][0]['geometry'])
+        logger.info(f"route: {route}")
         return route
     except Exception as e:
         response = requests.get(
             "https://api.openrouteservice.org/v2/health",  # OpenRouteService health endpoint
             headers={"Authorization": "5b3ce3597851110001cf6248b2b60bf1864a44568d06951c3b3b47a2"}
         )
-        print("Response status:", response.status_code)
-        print("Response content:", response.text)
+        logger.error("Response status:", response.status_code)
+        logger.error("Response content:", response.text)
         raise ValueError(f"An error occurred: {response}")
