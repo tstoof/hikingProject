@@ -72,6 +72,6 @@ def plan_route(coord1, coord2):
             "https://api.openrouteservice.org/v2/health",  # OpenRouteService health endpoint
             headers={"Authorization": "5b3ce3597851110001cf6248b2b60bf1864a44568d06951c3b3b47a2"}
         )
-        logger.error("Response status:", response.status_code)
-        logger.error("Response content:", response.text)
+        logger.error("Response status: %s", response.status_code)
+        logger.error("Response content: %s", response.text)
         raise ValueError(f"An error occurred: {response}")
