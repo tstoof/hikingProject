@@ -37,7 +37,6 @@ def receive_coordinates(request):
             route = plan_route(coord1, coord2)
             # Store in the session
             request.session["route"] = route
-            print("Saved route to session:", route)  # Debugging line
             return JsonResponse({"status": "success", "line_data": route, "route":request.session["route"]})
         except Exception as e:
             print(f"Error in POST: {e}")  # Debugging line
