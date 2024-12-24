@@ -1,5 +1,7 @@
 import openrouteservice
 from openrouteservice.convert import decode_polyline
+import os
+from decouple import config
 
 def say_hello_to_coordinates(coord1, coord2):
     lat1, lng1 = coord1
@@ -54,7 +56,7 @@ def create_straight_line_json(coord1, coord2, num_points=100):
 def plan_route(coord1, coord2):
     try:
         # Initialize the client with your API key
-        client = openrouteservice.Client(key="5b3ce3597851110001cf6248b2b60bf1864a44568d06951c3b3b47a2")
+        client = openrouteservice.Client(key=config('ORS_API_KEY'))
         route = client.directions(
             coordinates=[coord1, coord2],
             profile='foot-hiking',  # Other options: 'cycling-regular', 'foot-walking', etc.

@@ -1,12 +1,14 @@
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-from decouple import config
+
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='fallback-secret-key-for-dev')
+ORS_API_KEY = os.getenv('ORS_API_KEY', 'default_value_if_missing')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
