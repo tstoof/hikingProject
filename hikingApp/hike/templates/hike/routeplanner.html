@@ -1,39 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draggable Markers with Updated Coordinates</title>
+{% extends "css/routeplannerStyles.html" %}
 
-    <!-- Include Leaflet.js CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'hike/css/routeplannerStyles.css'%}" />
-
-    <!-- Include Leaflet.js JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <style>
-        #map {
-            width: 100%;
-            height: 70vh;
-        }
-    </style>
-
-</head>
-<body>
+{% block body %}
     <h1>Drag and drop the two markers to select your begin and end points!</h1>
 
     <div id="map"></div>
 
     <h3>Coordinates:</h3>
-    <p>Marker 1: <span id="marker1-coordinates">Not set</span></p>
-    <p>Marker 2: <span id="marker2-coordinates">Not set</span></p>
+    <p>Start: <span id="marker1-coordinates">Not set</span></p>
+    <p>End: <span id="marker2-coordinates">Not set</span></p>
+    <button onclick="updateCoordinates()">Plan your route</button>
+    <button onclick="downloadLineAsGPX()">Download Route (.gpx)</button>
+    <a href="{% url 'frontpage' %}">Go back to frontpage</a>
+
+
 
     <script>
-        // Initialize the map and set its view to a specific latitude and longitude
-        var map = L.map('map').setView([52.073, 5.13], 8); // Example: London
+       // Initialize the map and set its view to a specific latitude and longitude
+        var map = L.map('map').setView([52.073, 5.13], 8); // Example coordinates
 
         // Set the OpenStreetMap tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -42,12 +25,15 @@
 
         // Initialize two markers with their initial positions
         var marker1 = L.marker([52.145, 5.24], { draggable: true }).addTo(map)
-            .bindPopup('Marker 1')
+            .bindPopup('Start')
             .openPopup();
 
         var marker2 = L.marker([52.126, 5.68], { draggable: true }).addTo(map)
-            .bindPopup('Marker 2')
+            .bindPopup('End')
             .openPopup();
+  
+        var lineLayer = null;
+        var route = null;
 
         // Function to update the coordinates of both markers
         function updateCoordinates() {
@@ -59,15 +45,93 @@
             // Display the coordinates of the two markers
             document.getElementById('marker1-coordinates').textContent = `Latitude: ${lat1}, Longitude: ${lng1}`;
             document.getElementById('marker2-coordinates').textContent = `Latitude: ${lat2}, Longitude: ${lng2}`;
+
+            // Call the function to send the coordinates to the backend via POST
+            sendCoordinatesToAPI(lat1, lng1, lat2, lng2);
+        }
+
+        // Function to send the coordinates to the backend API using a POST request
+        function sendCoordinatesToAPI(lat1, lng1, lat2, lng2) {
+            fetch('/api/coordinates/', {  // The URL of your Django API endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // CSRF token for security
+                },
+                body: JSON.stringify({
+                    marker1: { lat: lat1, lng: lng1 },
+                    marker2: { lat: lat2, lng: lng2 }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const lineCoordinates = data.line_data.coordinates;
+
+                    // Clear the existing line from the map
+                    if (lineLayer) {
+                        map.removeLayer(lineLayer);
+                    }
+
+                    // Add the new line to the map
+                    lineLayer = L.polyline(
+                        lineCoordinates.map(coord => [coord[1], coord[0]]), // Leaflet expects [lat, lng]
+                        { color: 'blue', weight: 4 }
+                    ).addTo(map);
+
+                    map.fitBounds(lineLayer.getBounds()); // Adjust the map to fit the line                    
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Function to download the line as a CSV file
+        function downloadLineAsGPX() {
+            if (!lineLayer || lineLayer.getLatLngs().length === 0) {
+                alert("No line data available to download!");
+                return;
+            }
+
+            // Get the coordinates of the polyline (lineLayer) as an array of lat/lng pairs
+            let coordinates = lineLayer.getLatLngs();
+
+            // Start building the GPX XML string
+            let gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+            <gpx version="1.1" creator="Leaflet Map" xmlns="http://www.topografix.com/GPX/1/1">
+                <rte>`; // Start the route element
+
+            // Add each coordinate as a <rtept> element in the GPX file
+            coordinates.forEach(coord => {
+                gpxContent += `
+                    <rtept lat="${coord.lat}" lon="${coord.lng}">
+                        <name>Point</name>
+                    </rtept>`;
+            });
+
+            // Close the <rte> and <gpx> elements
+            gpxContent += `
+                </rte>
+            </gpx>`;
+
+            // Create a Blob with the GPX content and download it
+            const blob = new Blob([gpxContent], { type: 'application/gpx+xml;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "route_coordinates.gpx");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // Update coordinates when a marker is dragged and released
-        marker1.on('dragend', updateCoordinates);
-        marker2.on('dragend', updateCoordinates);
+        // marker1.on('dragend', updateCoordinates);
+        // marker2.on('dragend', updateCoordinates);
 
-        // Initial coordinates update on page load
-        updateCoordinates();
     </script>
-    <a href="{%  url 'frontpage'%}">Go back to frontpage</a>
-</body>
-</html>
+    
+    
+    
+{% endblock %}

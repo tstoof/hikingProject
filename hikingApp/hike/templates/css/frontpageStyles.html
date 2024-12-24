@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrailBlazer</title>
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'hike/css/frontpageStyles.css' %}">
+    <style>
+/* Global Styles */
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and background */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f1f8f5; /* Soft greenish background for a natural, calm feel */
+    color: #333333; /* Dark text for good contrast */
+    line-height: 1.6;
+}
+
+/* Hero Section */
+.hero {
+    background: url('https://www.example.com/hero-image.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); /* Light dark overlay to balance brightness */
+}
+
+.hero-content {
+    max-width: 700px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.85); /* Light white content background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #2e8b57; /* Soft green color for a natural feel */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #555555; /* Softened text for the paragraph */
+}
+
+.hero .btn {
+    background-color: #2e8b57; /* Green button */
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.hero .btn:hover {
+    background-color: #236b47; /* Darker green on hover */
+}
+
+/* Features Section */
+.features {
+    background-color: #ffffff; /* White background for the features section */
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #2e8b57; /* Soft green for the section title */
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #f7fdf6; /* Light greenish card background */
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #2e8b57; /* Green color for the card title */
+}
+
+.card p {
+    font-size: 1.1em;
+    color: #666666; /* Soft gray text for readability */
+}
+
+.card a {
+    text-decoration: none;
+    color: #2e8b57; /* Green links */
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+    transition: color 0.3s ease;
+}
+
+.card a:hover {
+    color: #236b47; /* Darker green on hover */
+}
+
+/* Footer */
+.footer {
+    background-color: #2e8b57; /* Green footer background */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer p {
+    font-size: 1.1em;
+    margin: 0;
+}
+
+/* Container for centering content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5em;
+    }
+
+    .hero p {
+        font-size: 1.1em;
+    }
+
+    .hero .btn {
+        font-size: 1em;
+        padding: 12px 25px;
+    }
+
+    .features h2 {
+        font-size: 2em;
+    }
+
+    .feature-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+    .footer p {
+        font-size: 1em;
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>
