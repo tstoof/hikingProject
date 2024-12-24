@@ -100,3 +100,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collect static files to '
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Keep sessions active for 2 weeks (default: SESSION_COOKIE_AGE is 2 weeks)
+SESSION_COOKIE_AGE = 1209600  # In seconds (2 weeks = 1209600 seconds)
+
+# Optional: Delete session data when the user closes their browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False

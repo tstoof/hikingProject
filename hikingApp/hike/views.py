@@ -10,13 +10,19 @@ def routeplanner(request):
 
 # Create your views here.
 def frontpage(request):
-    return render(request, "hike/frontpage.html")
+    # Check if "visits" is already in the session
+    if 'visits' not in request.session:
+        # Initialize it if it doesn't exist
+        request.session['visits'] = 0
+
+    # Increment the visits
+    request.session['visits'] += 1
+    return render(request, "hike/frontpage.html", {'visits': request.session['visits']})
 
 def login(request):
     return render(request, "hike/login.html")
 
-# View to handle the incoming coordinates
-@csrf_exempt  # You might want to use CSRF protection in a production app
+@csrf_exempt
 def receive_coordinates(request):
     if request.method == 'POST':
         try:
@@ -26,14 +32,16 @@ def receive_coordinates(request):
             marker2_lat = data.get('marker2').get('lat')
             marker2_lng = data.get('marker2').get('lng')
 
-            # Do something with the coordinates (e.g., pass them to a function)
-            # Example: Call a function to process the coordinates
-            # process_coordinates(marker1_lat, marker1_lng, marker2_lat, marker2_lng)
             coord1 = (marker1_lat, marker1_lng)
             coord2 = (marker2_lat, marker2_lng)
             straight_line = create_straight_line_json(coord1, coord2)
-            return JsonResponse({"status": "success", "line_data": straight_line})
+
+            # Store in the session
+            request.session["route"] = straight_line
+            print("Saved route to session:", straight_line)  # Debugging line
+            return JsonResponse({"status": "success", "line_data": straight_line, "route":request.session["route"]})
         except Exception as e:
+            print(f"Error in POST: {e}")  # Debugging line
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
-    else:
-        return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+
+   

@@ -46,3 +46,5 @@ def create_straight_line_json(coord1, coord2, num_points=100):
     
     except Exception as e:
         raise ValueError(f"An error occurred: {e}")
+    
+
