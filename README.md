@@ -1,3 +1,6 @@
+#### website
+https://planyourhike.onrender.com/routeplanner/
+
 ### start een localhost server om te kijken hoe je veranderingen eruit zien
 
       - cd hikingApp
