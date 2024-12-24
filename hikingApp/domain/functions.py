@@ -87,7 +87,7 @@ def plan_route(coord1, coord2):
         # Check the status of the OpenRouteService API
         try:
             response = requests.get(
-                "https://api.openrouteservice.org/v2/health",  # Health check endpoint
+                "https://api.openrouteservice.org/ors/v2/health",  # Health check endpoint
                 headers={"Authorization": config('ORS_API_KEY')}
             )
             logger.error("Health check response status: %s", response.status_code)
