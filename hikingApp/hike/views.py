@@ -34,8 +34,7 @@ def receive_coordinates(request):
 
             coord1 = (marker1_lng, marker1_lat)
             coord2 = (marker2_lng, marker2_lat)
-            data = plan_route(coord1, coord2)
-            route = data['features'][0]['geometry']
+            route = plan_route(coord1, coord2)
             # Store in the session
             request.session["route"] = route
             print("Saved route to session:", route)  # Debugging line

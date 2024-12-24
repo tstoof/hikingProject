@@ -1,4 +1,5 @@
 import openrouteservice
+from openrouteservice.convert import decode_polyline
 
 def say_hello_to_coordinates(coord1, coord2):
     lat1, lng1 = coord1
@@ -57,8 +58,8 @@ def plan_route(coord1, coord2):
         route = client.directions(
             coordinates=[coord1, coord2],
             profile='foot-hiking',  # Other options: 'cycling-regular', 'foot-walking', etc.
-            format='geojson'        # Response format
         )
+        route = decode_polyline(route['routes'][0]['geometry'])
         return route
     except Exception as e:
         raise ValueError(f"An error occurred: {e}")
