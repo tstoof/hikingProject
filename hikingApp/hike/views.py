@@ -32,14 +32,14 @@ def receive_coordinates(request):
             marker2_lat = data.get('marker2').get('lat')
             marker2_lng = data.get('marker2').get('lng')
 
-            coord1 = (marker1_lat, marker1_lng)
-            coord2 = (marker2_lat, marker2_lng)
-            straight_line = create_straight_line_json(coord1, coord2)
-
+            coord1 = (marker1_lng, marker1_lat)
+            coord2 = (marker2_lng, marker2_lat)
+            data = plan_route(coord1, coord2)
+            route = data['features'][0]['geometry']
             # Store in the session
-            request.session["route"] = straight_line
-            print("Saved route to session:", straight_line)  # Debugging line
-            return JsonResponse({"status": "success", "line_data": straight_line, "route":request.session["route"]})
+            request.session["route"] = route
+            print("Saved route to session:", route)  # Debugging line
+            return JsonResponse({"status": "success", "line_data": route, "route":request.session["route"]})
         except Exception as e:
             print(f"Error in POST: {e}")  # Debugging line
             return JsonResponse({"status": "error", "message": str(e)}, status=400)

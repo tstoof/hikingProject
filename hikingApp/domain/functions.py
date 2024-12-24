@@ -1,3 +1,5 @@
+import openrouteservice
+
 def say_hello_to_coordinates(coord1, coord2):
     lat1, lng1 = coord1
     lat2, lng2 = coord2
@@ -48,3 +50,15 @@ def create_straight_line_json(coord1, coord2, num_points=100):
         raise ValueError(f"An error occurred: {e}")
     
 
+def plan_route(coord1, coord2):
+    try:
+        # Initialize the client with your API key
+        client = openrouteservice.Client(key="5b3ce3597851110001cf6248b2b60bf1864a44568d06951c3b3b47a2")
+        route = client.directions(
+            coordinates=[coord1, coord2],
+            profile='foot-hiking',  # Other options: 'cycling-regular', 'foot-walking', etc.
+            format='geojson'        # Response format
+        )
+        return route
+    except Exception as e:
+        raise ValueError(f"An error occurred: {e}")
