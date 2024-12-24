@@ -52,12 +52,19 @@ def create_straight_line_json(coord1, coord2, num_points=100):
     except Exception as e:
         raise ValueError(f"An error occurred: {e}")
     
-
+import requests
 def plan_route(coord1, coord2):
+
     try:
+        response = requests.get(
+            "https://api.openrouteservice.org/v2/health",  # OpenRouteService health endpoint
+            headers={"Authorization": "your_actual_api_key_here"}
+        )
+        print("Response status:", response.status_code)
+        print("Response content:", response.text)
+     
         # Initialize the client with your API key
-        # client = openrouteservice.Client(key=config('ORS_API_KEY'))
-        client = openrouteservice.Client(key="5b3ce3597851110001cf6248b2b60bf1864a44568d06951c3b3b47a2")
+        client = openrouteservice.Client(key=config('ORS_API_KEY'))
         route = client.directions(
             coordinates=[coord1, coord2],
             profile='foot-hiking',  # Other options: 'cycling-regular', 'foot-walking', etc.
