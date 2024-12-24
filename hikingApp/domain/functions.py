@@ -83,5 +83,7 @@ def plan_route(coord1, coord2):
     except Exception as e:
         # Fallback for any other unexpected exceptions
         logger.error("An unexpected error occurred: %s", str(e))
+        logger.info(f"key={config('ORS_API_KEY')}")
+        
         return create_straight_line_json(coord1, coord2, num_points=100)
         raise ValueError(f"An error occurred: {str(e)}")
