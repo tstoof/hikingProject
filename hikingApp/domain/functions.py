@@ -83,16 +83,5 @@ def plan_route(coord1, coord2):
     except Exception as e:
         # Fallback for any other unexpected exceptions
         logger.error("An unexpected error occurred: %s", str(e))
-        
-        # Check the status of the OpenRouteService API
-        try:
-            response = requests.get(
-                "https://api.openrouteservice.org/ors/v2/health",  # Health check endpoint
-                headers={"Authorization": config('ORS_API_KEY')}
-            )
-            logger.error("Health check response status: %s", response.status_code)
-            logger.error("Health check response content: %s", response.text)
-        except Exception as health_error:
-            logger.error("Health check failed: %s", str(health_error))
-        
+        return create_straight_line_json(coord1, coord2, num_points=100)
         raise ValueError(f"An error occurred: {str(e)}")

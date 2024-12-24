@@ -3,10 +3,13 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from domain.functions import *
+import logging
+
+logger = logging.getLogger(__name__)
+
 # Create your views here.
 def routeplanner(request):
     return render(request, "hike/routeplanner.html")
-
 
 # Create your views here.
 def frontpage(request):
