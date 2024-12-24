@@ -27,13 +27,13 @@ def create_straight_line_json(coord1, coord2, num_points=100):
     """
     try:
         # Unpack coordinates
-        lat1, lng1 = coord1
-        lat2, lng2 = coord2
+        lng1, lat1 = coord1
+        lng2, lat2 = coord2
 
-        lng1 = float(lat1) # switched lat and lng because of api call
-        lng2 = float(lat2)
-        lat1 = float(lng1)
-        lat2 = float(lng2)
+        lat1 = float(lat1) 
+        lat2 = float(lat2)
+        lng1 = float(lng1)
+        lng2 = float(lng2)
 
         # Generate points along the line
         points = []
@@ -84,6 +84,6 @@ def plan_route(coord1, coord2):
         # Fallback for any other unexpected exceptions
         logger.error("An unexpected error occurred: %s", str(e))
         logger.info(f"key={config('ORS_API_KEY')}")
-        
+
         return create_straight_line_json(coord1, coord2, num_points=100)
         raise ValueError(f"An error occurred: {str(e)}")
