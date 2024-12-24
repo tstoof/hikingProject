@@ -83,5 +83,13 @@ def plan_route(coord1, coord2):
     except Exception as e:
         # Fallback for any other unexpected exceptions
         logger.error("An unexpected error occurred: %s", str(e))
-        logger.error("key=%s",str(config('ORS_API_KEY')))
+        # Initialize the client with your API key
+        client = openrouteservice.Client(key=config('ORS_API_KEY'))
+        
+        # Get route between two coordinates
+        route = client.directions(
+            coordinates=[coord1, coord2],
+            profile='foot-hiking',  # Options: 'cycling-regular', 'foot-walking', etc.
+        )
+        logger.error("route=%s",str(route))
         return create_straight_line_json(coord1, coord2, num_points=100)
