@@ -56,22 +56,43 @@ def create_straight_line_json(coord1, coord2, num_points=100):
     
 import requests
 def plan_route(coord1, coord2):
-
     try:    
         # Initialize the client with your API key
         client = openrouteservice.Client(key=config('ORS_API_KEY'))
+        
+        # Get route between two coordinates
         route = client.directions(
             coordinates=[coord1, coord2],
-            profile='foot-hiking',  # Other options: 'cycling-regular', 'foot-walking', etc.
+            profile='foot-hiking',  # Options: 'cycling-regular', 'foot-walking', etc.
         )
-        route = decode_polyline(route['routes'][0]['geometry'])
-        logger.info(f"route: {route}")
-        return route
+        
+        # Decode the polyline
+        route_geometry = route['routes'][0]['geometry']
+        decoded_route = decode_polyline(route_geometry)
+        
+        # Log the decoded route
+        logger.info(f"Decoded route: {decoded_route}")
+        
+        return decoded_route
+    
+    except openrouteservice.exceptions.ApiError as api_error:
+        # Handle API-specific errors
+        logger.error("OpenRouteService API error occurred: %s", api_error)
+        raise ValueError(f"OpenRouteService API error: {api_error}")
+    
     except Exception as e:
-        response = requests.get(
-            "https://api.openrouteservice.org/v2/health",  # OpenRouteService health endpoint
-            headers={"Authorization": "5b3ce3597851110001cf6248b2b60bf1864a44568d06951c3b3b47a2"}
-        )
-        logger.error("Response status: %s", response.status_code)
-        logger.error("Response content: %s", response.text)
-        raise ValueError(f"An error occurred: {response}")
+        # Fallback for any other unexpected exceptions
+        logger.error("An unexpected error occurred: %s", str(e))
+        
+        # Check the status of the OpenRouteService API
+        try:
+            response = requests.get(
+                "https://api.openrouteservice.org/v2/health",  # Health check endpoint
+                headers={"Authorization": config('ORS_API_KEY')}
+            )
+            logger.error("Health check response status: %s", response.status_code)
+            logger.error("Health check response content: %s", response.text)
+        except Exception as health_error:
+            logger.error("Health check failed: %s", str(health_error))
+        
+        raise ValueError(f"An error occurred: {str(e)}")
