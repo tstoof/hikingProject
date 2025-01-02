@@ -9,8 +9,11 @@
     <p>Start: <span id="marker1-coordinates">Not set</span></p>
     <p>End: <span id="marker2-coordinates">Not set</span></p>
     <button onclick="updateCoordinates()">Plan your route</button>
+    <input type="text" id="routeName" placeholder="Enter route name">
+    <button onclick="save_route()">Save your route</button>
     <button onclick="downloadLineAsGPX()">Download Route (.gpx)</button>
     <a href="{% url 'frontpage' %}">Go back to frontpage</a>
+    <a href="{% url 'history' %}">Go to history</a>
 
 
 
@@ -129,6 +132,34 @@
         // Update coordinates when a marker is dragged and released
         // marker1.on('dragend', updateCoordinates);
         // marker2.on('dragend', updateCoordinates);
+
+        // Function to convert latlngs to a more suitable format for MongoDB
+        function getLineData() {
+            var latlngs = lineLayer.getLatLngs();
+            return latlngs.map(function(latlng) {
+                return { lat: latlng.lat, lng: latlng.lng };
+            });
+        }
+
+        function save_route(){
+            var routeName = document.getElementById("routeName").value;
+            var routeData = getLineData();
+            fetch('/routeplanner/save_route/', {  // The URL of your Django API endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // CSRF token for security
+                },
+                body: JSON.stringify({
+                    route: routeData,
+                    name: routeName   
+                })
+            })       
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
 
     </script>
     
