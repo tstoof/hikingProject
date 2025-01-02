@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from domain.functions import *
 import logging
+from .mongo_helper import MongoDBHelper
 
 logger = logging.getLogger(__name__)
 
@@ -40,9 +41,18 @@ def receive_coordinates(request):
             route = plan_route(coord1, coord2)
             # Store in the session
             request.session["route"] = route
+
             return JsonResponse({"status": "success", "line_data": route, "route":request.session["route"]})
         except Exception as e:
             print(f"Error in POST: {e}")  # Debugging line
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
-   
+
+def save_route(request):
+    route = request.session["route"]
+    document = {
+        "route_name": "try2",
+        "route":route
+    }
+    mongo_helper = MongoDBHelper()
+    inserted_id = mongo_helper.insert_document('routes', document)

@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 from decouple import config
-
+from urllib.parse import quote_plus
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,6 +9,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 ORS_API_KEY = config('ORS_API_KEY')
+
+password = quote_plus(config('DATABASE_KEY'))
+MONGO_URI = "mongodb+srv://tamarastoof:" + password + "@website.qtybm.mongodb.net/?retryWrites=true&w=majority&appName=website"
+MONGO_DB_NAME = "hikingRoutes"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
