@@ -5,9 +5,9 @@
 <div id="route-container"></div>
 
 
-<button onclick="loadRoutes()">Load Route History</button>
-
-
+<!-- <button onclick="loadRoutes()">Load Route History</button> -->
+<a href="{% url 'frontpage' %}">Go back to frontpage</a>
+<a href="{% url 'routeplanner' %}">Go back to frontpage</a>
 
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -101,7 +101,7 @@
         return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
     }
 
-
+    document.addEventListener("DOMContentLoaded", loadRoutes);
 
 </script>
     
