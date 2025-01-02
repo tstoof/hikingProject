@@ -10,7 +10,7 @@ class MongoDBHelper:
 
     def get_collection(self, collection_name):
         """Return a specific collection"""
-        return list(self.db[collection_name].find())
+        return self.db[collection_name]
 
     def insert_document(self, collection_name, document):
         """Insert a document into a collection"""

@@ -98,7 +98,7 @@ def load_routes(request):
         try:
             logging.info("Fetching routes from MongoDB")
             mongo_helper = MongoDBHelper()
-            collection = mongo_helper.get_collection("routes")
+            collection =list(mongo_helper.get_collection("routes").find())
             
             # Serialize MongoDB data
             serialized_data = dumps(collection)  # Converts ObjectId and other BSON types
