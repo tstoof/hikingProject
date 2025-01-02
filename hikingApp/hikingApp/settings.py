@@ -1,12 +1,18 @@
 from pathlib import Path
 import os
-
+from decouple import config
+from urllib.parse import quote_plus
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-from decouple import config
-SECRET_KEY = config('DJANGO_SECRET_KEY', default='fallback-secret-key-for-dev')
+
+SECRET_KEY = config('DJANGO_SECRET_KEY')
+ORS_API_KEY = config('ORS_API_KEY')
+
+password = quote_plus(config('DATABASE_KEY'))
+MONGO_URI = "mongodb+srv://tamarastoof:" + password + "@website.qtybm.mongodb.net/?retryWrites=true&w=majority&appName=website"
+MONGO_DB_NAME = "hikingRoutes"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -26,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,3 +107,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collect static files to '
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Keep sessions active for 2 weeks (default: SESSION_COOKIE_AGE is 2 weeks)
+SESSION_COOKIE_AGE = 1209600  # In seconds (2 weeks = 1209600 seconds)
+
+# Optional: Delete session data when the user closes their browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False

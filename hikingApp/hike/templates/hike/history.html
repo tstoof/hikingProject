@@ -1,0 +1,108 @@
+{% extends "css/historyStyles.html" %}
+
+{% block body %}
+<div id="map"></div>
+<div id="route-container"></div>
+
+
+<!-- <button onclick="loadRoutes()">Load Route History</button> -->
+<a href="{% url 'frontpage' %}">Go back to frontpage</a>
+<a href="{% url 'routeplanner' %}">plan the next route</a>
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([52.073, 5.13], 8); // Set initial map view
+
+    // Tile Layer for the map (OpenStreetMap in this case)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+
+    function loadRoutes() {
+        fetch('/api/loadedRoutes/', {  // The URL of your Django API endpoint
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // If CSRF token is needed, ensure it is dynamically inserted or passed from the DOM
+                'X-CSRFToken': '{{ csrf_token }}' 
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === "success") {
+                const collection_data = JSON.parse(data.collection_data); // Parse JSON if needed
+                const routeContainer = document.getElementById('route-container'); // Div for route info
+                console.log(collection_data)
+                // Clear the route container
+                routeContainer.innerHTML = "";
+
+                for (let i = 0; i < collection_data.length; i++) {
+                    const route = collection_data[i];
+                    const coordinates = route.route; // Assuming `route` contains an array of coordinates
+                    const color = route.color || getRandomColor(); // Use route color or generate one
+                    const name = route.route_name || `Route ${i + 1}`;
+
+                    // Add a polyline to the map
+                    const polyline = L.polyline(coordinates, {
+                        color: color,
+                        weight: 5, // Line thickness
+                        opacity: 0.7
+                    }).addTo(map);
+
+                    // Add hover effects for the polyline
+                    polyline.on('mouseover', function () {
+                        this.setStyle({ color: lightenColor(color, 20), weight: 8 });
+                    });
+                    polyline.on('mouseout', function () {
+                        this.setStyle({ color: color, weight: 5 });
+                    });
+
+                    // Add the route name to the route container
+                    const routeItem = document.createElement('div');
+                    routeItem.className = "route-item";
+                    routeItem.style.borderLeft = `5px solid ${color}`;
+                    routeItem.textContent = name;
+
+                    routeContainer.appendChild(routeItem);
+                }
+            } else {
+                console.error('Error:', data.message);
+            }
+        })
+        .catch(error => {         
+            console.error('Error:', error);
+        });
+    }
+
+    // Function to generate random colors
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // Function to lighten a color
+    function lightenColor(color, percent) {
+        const num = parseInt(color.slice(1), 16),
+            amt = Math.round(2.55 * percent),
+            R = (num >> 16) + amt,
+            G = (num >> 8 & 0x00FF) + amt,
+            B = (num & 0x0000FF) + amt;
+
+        return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", loadRoutes);
+
+</script>
+    
+{% endblock %}
