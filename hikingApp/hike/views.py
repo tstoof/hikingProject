@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from domain.functions import *
 import logging
 from .mongo_helper import MongoDBHelper
-
+from bson.json_util import dumps
 import random
 import string
 
@@ -34,6 +34,9 @@ def frontpage(request):
 
 def login(request):
     return render(request, "hike/login.html")
+
+def history(request):
+    return render(request, "hike/history.html")
 
 @csrf_exempt
 def receive_coordinates(request):
@@ -88,3 +91,31 @@ def save_route(request):
         except Exception as e:
             print(f"Error saving route: {e}")
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
+        
+@csrf_exempt
+def load_routes(request):
+    if request.method == "GET":
+        try:
+            logging.info("Fetching routes from MongoDB")
+            mongo_helper = MongoDBHelper()
+            collection = mongo_helper.get_collection("routes")
+            
+            # Serialize MongoDB data
+            serialized_data = dumps(collection)  # Converts ObjectId and other BSON types
+            
+            return JsonResponse({
+                "status": "success",
+                "collection_data": serialized_data
+            }, safe=False)
+        
+        except Exception as e:
+            logging.error(f"Error fetching routes: {e}")
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            }, status=400)
+    else:
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid HTTP method. Only GET is allowed."
+        }, status=405)
