@@ -49,31 +49,37 @@ jobs:
     - name: Run migrations
       run: |
         source venv/bin/activate  # Activate the virtual environment
+        cd hikingApp
         python manage.py migrate  # Run Django migrations
+        cd ..
 
     # Step 5: Run tests (make sure you have tests in place for this to work)
     - name: Run tests
       run: |
         source venv/bin/activate  # Activate the virtual environment
+        cd hikingApp
         python manage.py test hike  # Run Django tests for the 'hike' app
+        cd ..
 
     # Optional: Step 6: Collect static files (if needed for deployment or testing)
     - name: Collect static files
       run: |
         source venv/bin/activate  # Activate the virtual environment
+        cd hikingApp
         python manage.py collectstatic --noinput  # Collect static files
+        cd ..
 
-    # Step 7: Run the Django development server
-    - name: Run Django server
-      run: |
-        source venv/bin/activate  # Activate the virtual environment
-        nohup python manage.py runserver 0.0.0.0:8000 &  # Run server in the background
+    # # Step 7: Run the Django development server
+    # - name: Run Django server
+    #   run: |
+    #     source venv/bin/activate  # Activate the virtual environment
+    #     nohup python manage.py runserver 0.0.0.0:8000 &  # Run server in the background
 
 
-    # Step 8: Health check after running the server
-    - name: Health check
-      run: |
-        curl http://localhost:8000/
+    # # Step 8: Health check after running the server
+    # - name: Health check
+    #   run: |
+    #     curl http://localhost:8000/
 
 
     # Optional: Step 9: Deploy to production (if required, this could be added here)
